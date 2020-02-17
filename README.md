@@ -1,4 +1,4 @@
-<p align="center"><img src="ftpreader.png" width="400"></p>
+<p align="center"><img src="public/ftpreader.png" width="400"></p>
 
 ## 📚 About Ftpreader
 
@@ -33,6 +33,8 @@ docker-compose up
 ```
 docker ps
 ```
+<p align="center"><img src="public/containers.png"></p>
+
 Okey, your app is running on localhost:8001. You can read ftp files from /categoriesImport path.
 
 
