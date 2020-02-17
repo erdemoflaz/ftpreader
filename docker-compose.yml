@@ -1,0 +1,48 @@
+version: '2.3'
+services:
+  db:
+    image: "mysql:5.7"
+    command: --disable-partition-engine-check
+    volumes:
+      - ./mysql/mounted/backups/:/adk/backups
+      - ./mysql/mounted/logs:/var/log/mysql
+    environment:
+      MYSQL_DATABASE: ftpreader
+      MYSQL_ROOT_PASSWORD: root
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
+    ports:
+      - "33006:3306"
+
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c 'php artisan migrate; php artisan db:seed; php artisan serve --host 0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "8001:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+      - redis
+  queue:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bash -c 'php artisan queue:listen'
+    volumes:
+      - .:/app
+    depends_on:
+      db:
+        condition: service_healthy
+    links:
+      - db
+      - redis
+  redis:
+    image: redis:4.0
