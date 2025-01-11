@@ -60,4 +60,6 @@ docker ps
 
 Okey, your app is running on localhost:8001. You can read ftp files from /categories/import path.
 
+<a href="https://toptanize.com/wholesalers/istanbul" rel="dofollow">İstanbul toptancıları</a>
+
 
